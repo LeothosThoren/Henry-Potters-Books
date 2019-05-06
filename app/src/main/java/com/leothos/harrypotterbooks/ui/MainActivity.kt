@@ -1,7 +1,8 @@
-package com.leothos.harrypotterbooks
+package com.leothos.harrypotterbooks.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.leothos.harrypotterbooks.R
 
 class MainActivity : AppCompatActivity() {
 
