@@ -1,6 +1,6 @@
 package com.leothos.harrypotterbooks.injections.module
 
-import com.leothos.harrypotterbooks.BASE_URL
+import com.leothos.harrypotterbooks.utils.BASE_URL
 import com.leothos.harrypotterbooks.remote.BooksApi
 import dagger.Module
 import dagger.Provides

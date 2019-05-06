@@ -1,13 +1,72 @@
 package com.leothos.harrypotterbooks.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.snackbar.Snackbar
 import com.leothos.harrypotterbooks.R
+import com.leothos.harrypotterbooks.databinding.ActivityMainBinding
+import com.leothos.harrypotterbooks.view_models.BookListViewModel
 
 class MainActivity : AppCompatActivity() {
 
+    // var
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var viewModel: BookListViewModel
+    private var errorSnackbar: Snackbar? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
+        // Init
+        configureViewModel()
+        displayErrorMessage()
+
+        binding.viewModel = viewModel
+    }
+
+
+    //****************
+    // Configuration
+    // ***************
+
+    private fun configureViewModel() {
+        viewModel = ViewModelProviders.of(this).get(BookListViewModel::class.java)
+    }
+
+    //****************
+    // UI
+    // ***************
+
+    /**
+     * Observe the value of errorMessage in this Activity to display the SnackBar when it is not null,
+     * and hide it when the value is null
+     * */
+    private fun displayErrorMessage() {
+        viewModel.errorMessage.observe(this, Observer { errorMessage ->
+            if (errorMessage != null) showError(errorMessage) else hideError()
+        })
+
+    }
+
+    /**
+     * Show a SnackBar in cas of internet error
+     * @param errorMessage value which come from the viewModel
+     * */
+    private fun showError(@StringRes errorMessage: Int) {
+        errorSnackbar = Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_INDEFINITE)
+        errorSnackbar?.setAction(R.string.retry, viewModel.errorClickListener)
+        errorSnackbar?.show()
+    }
+
+    /**
+     * Hide the snack bar if the api call is a success
+     * */
+    private fun hideError() {
+        errorSnackbar?.dismiss()
     }
 }

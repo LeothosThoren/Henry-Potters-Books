@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Harry Potter Books</string>
     <string name="book_error">An error occurred while loading, check your internet connexion</string>
+    <string name="retry">Retry</string>
+
 </resources>

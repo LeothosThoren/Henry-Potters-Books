@@ -31,6 +31,10 @@ class BookListViewModel : BaseViewModel() {
         loadBookList()
     }
 
+    /**
+     * Get all the data from BookApi.
+     * If The result generate an error a toast message is displayed to alert the user.
+     * */
     private fun loadBookList() {
         subscription = booksApi.getBooks()
             .subscribeOn(Schedulers.io())
@@ -69,7 +73,7 @@ class BookListViewModel : BaseViewModel() {
      * */
 
     private fun onRetrieveSuccess(book: List<Book>) {
-        Log.d(TAG, "List of books = ${book.listIterator().next()}")
+        Log.d(TAG, "List of books = ${book.size}")
         //Update recycler view here
 //        .updateRssList(book)
     }
