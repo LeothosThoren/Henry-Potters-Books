@@ -14,6 +14,6 @@ interface BooksApi {
      * Get a list of bokks and theirs detail from Xebia APi
      * Call performed with retrofit and RxJava
      */
-    @GET("books")
+    @GET("/books")
     fun getBooks(): Observable<List<Book>>
 }

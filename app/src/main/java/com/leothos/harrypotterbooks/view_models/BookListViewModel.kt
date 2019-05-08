@@ -7,15 +7,13 @@ import com.leothos.harrypotterbooks.R
 import com.leothos.harrypotterbooks.base.BaseViewModel
 import com.leothos.harrypotterbooks.model.Book
 import com.leothos.harrypotterbooks.remote.BooksApi
+import com.leothos.harrypotterbooks.ui.adapter.BookListAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class BookListViewModel : BaseViewModel() {
-    companion object {
-        val TAG = BookListViewModel::class.java.simpleName
-    }
 
     @Inject
     lateinit var booksApi: BooksApi
@@ -26,6 +24,7 @@ class BookListViewModel : BaseViewModel() {
     val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
     val errorMessage: MutableLiveData<Int> = MutableLiveData()
     val errorClickListener = View.OnClickListener { loadBookList() }
+    val bookListAdapter: BookListAdapter = BookListAdapter()
 
     init {
         loadBookList()
@@ -72,10 +71,10 @@ class BookListViewModel : BaseViewModel() {
      *
      * */
 
-    private fun onRetrieveSuccess(book: List<Book>) {
-        Log.d(TAG, "List of books = ${book.size}")
+    private fun onRetrieveSuccess(books: List<Book>) {
+        Log.d(TAG, "List of books = ${books.size}")
         //Update recycler view here
-//        .updateRssList(book)
+        bookListAdapter.updateBookList(books)
     }
 
     private fun onRetrieveError() {
@@ -91,6 +90,10 @@ class BookListViewModel : BaseViewModel() {
     override fun onCleared() {
         super.onCleared()
         subscription.dispose()
+    }
+
+    companion object {
+        val TAG = BookListViewModel::class.java.simpleName
     }
 
 }

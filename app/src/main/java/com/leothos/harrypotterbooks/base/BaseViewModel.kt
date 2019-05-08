@@ -6,7 +6,7 @@ import com.leothos.harrypotterbooks.injections.component.ViewModelInjector
 import com.leothos.harrypotterbooks.injections.module.NetworkModule
 import com.leothos.harrypotterbooks.view_models.BookListViewModel
 
-abstract class BaseViewModel: ViewModel() {
+abstract class BaseViewModel : ViewModel() {
 
     /**
      * Dagger2 build configuration
