@@ -2,6 +2,7 @@ package com.leothos.harrypotterbooks.injections.component
 
 import com.leothos.harrypotterbooks.injections.module.NetworkModule
 import com.leothos.harrypotterbooks.view_models.BookListViewModel
+import com.leothos.harrypotterbooks.view_models.OfferViewModel
 import dagger.Component
 import javax.inject.Singleton
 
@@ -16,6 +17,13 @@ interface ViewModelInjector {
      * @param bookListViewModel bookListViewModel in which to inject the dependencies
      */
     fun inject(bookListViewModel: BookListViewModel)
+
+
+    /**
+     * Injects required dependencies into the specified bookListViewModel.
+     * @param offerViewModel offerViewModel in which to inject the dependencies
+     */
+    fun inject(offerViewModel: OfferViewModel)
 
 
     @Component.Builder

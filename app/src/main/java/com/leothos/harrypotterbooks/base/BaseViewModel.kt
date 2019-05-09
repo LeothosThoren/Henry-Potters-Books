@@ -5,6 +5,7 @@ import com.leothos.harrypotterbooks.injections.component.DaggerViewModelInjector
 import com.leothos.harrypotterbooks.injections.component.ViewModelInjector
 import com.leothos.harrypotterbooks.injections.module.NetworkModule
 import com.leothos.harrypotterbooks.view_models.BookListViewModel
+import com.leothos.harrypotterbooks.view_models.OfferViewModel
 
 abstract class BaseViewModel : ViewModel() {
 
@@ -27,6 +28,7 @@ abstract class BaseViewModel : ViewModel() {
     private fun inject() {
         when (this) {
             is BookListViewModel -> injector.inject(this)
+            is OfferViewModel -> injector.inject(this)
         }
     }
 }

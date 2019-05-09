@@ -5,51 +5,46 @@ import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.leothos.harrypotterbooks.R
 import com.leothos.harrypotterbooks.base.BaseViewModel
-import com.leothos.harrypotterbooks.model.Book
+import com.leothos.harrypotterbooks.model.Offers
 import com.leothos.harrypotterbooks.remote.HenriPotierApi
-import com.leothos.harrypotterbooks.ui.adapter.BookListAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class BookListViewModel : BaseViewModel() {
+class OfferViewModel : BaseViewModel() {
 
     @Inject
     lateinit var henriPotierApi: HenriPotierApi
 
     private lateinit var subscription: Disposable
-
+    // var
     // val
     val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
     val errorMessage: MutableLiveData<Int> = MutableLiveData()
-    val errorClickListener = View.OnClickListener { loadBookList() }
-    val bookListAdapter: BookListAdapter = BookListAdapter()
+    val errorClickListener = View.OnClickListener { loadOffers() }
+    private val test = MutableLiveData<String>()
 
     init {
-        loadBookList()
+        loadOffers()
     }
 
-    /**
-     * Get all the data from BookApi.
-     * If The result generate an error a toast message is displayed to alert the user.
-     * */
-    private fun loadBookList() {
-        subscription = henriPotierApi.getBooks()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { onRetrieveBookListStart() }
-            .doOnTerminate { onRetrieveBookListFinish() }
-            .subscribe(
-                // Add result
-                { result ->
-                    onRetrieveSuccess(result)
-                },
 
-                {
-                    onRetrieveError()
-                }
-            )
+    private fun loadOffers() {
+        subscription =
+            henriPotierApi.getCommercialOffers("c8fabf68-8374-48fe-a7ea-a00ccd07afff,a460afed-e5e7-4e39-a39d-c885c05db861")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { onRetrieveBookListStart() }
+                .doOnTerminate { onRetrieveBookListFinish() }
+                .subscribe(
+                    { result ->
+                        onRetrieveSuccess(result)
+                    },
+                    {
+                        onRetrieveError()
+                    }
+                )
     }
 
     /**
@@ -71,15 +66,23 @@ class BookListViewModel : BaseViewModel() {
      *
      * */
 
-    private fun onRetrieveSuccess(books: List<Book>) {
-        Log.d(TAG, "List of books = ${books.size}")
-        //Update recycler view here
-        bookListAdapter.updateBookList(books)
+    private fun onRetrieveSuccess(offers: Offers) {
+        //Update view here
+        getOffers(offers)
+
     }
 
     private fun onRetrieveError() {
         Log.d(TAG, "Error message")
         errorMessage.value = R.string.book_error
+    }
+
+    private fun getOffers(offers: Offers) {
+        test.value = offers.offers?.get(0)?.type
+    }
+
+    fun getTest(): MutableLiveData<String> {
+        return test
     }
 
 
@@ -93,7 +96,6 @@ class BookListViewModel : BaseViewModel() {
     }
 
     companion object {
-        val TAG = BookListViewModel::class.java.simpleName
+        val TAG = OfferViewModel::class.java.simpleName
     }
-
 }

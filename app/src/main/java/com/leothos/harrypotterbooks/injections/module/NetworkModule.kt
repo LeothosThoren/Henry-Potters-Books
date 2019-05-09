@@ -1,6 +1,6 @@
 package com.leothos.harrypotterbooks.injections.module
 
-import com.leothos.harrypotterbooks.remote.BooksApi
+import com.leothos.harrypotterbooks.remote.HenriPotierApi
 import com.leothos.harrypotterbooks.utils.BASE_URL
 import dagger.Module
 import dagger.Provides
@@ -21,8 +21,8 @@ object NetworkModule {
     @Provides
     @Reusable
     @JvmStatic
-    internal fun provideBooksApi(retrofit: Retrofit): BooksApi {
-        return retrofit.create(BooksApi::class.java)
+    internal fun henriPotierApi(retrofit: Retrofit): HenriPotierApi {
+        return retrofit.create(HenriPotierApi::class.java)
     }
 
     /**
