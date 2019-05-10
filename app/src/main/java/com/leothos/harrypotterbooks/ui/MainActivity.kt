@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: BookListViewModel
     private var errorSnackbar: Snackbar? = null
 
+
     @SuppressLint("WrongConstant")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         configureViewModel()
         displayErrorMessage()
         configureRecyclerView()
+
 
         binding.viewModel = viewModel
     }
@@ -58,7 +60,15 @@ class MainActivity : AppCompatActivity() {
         // Perform click
         viewModel.bookListAdapter.setOnItemClickListener(object : BookListAdapter.OnItemClickListener {
             override fun onClick(view: View, data: Book) {
-                Toast.makeText(applicationContext, "Title = ${data.title}", Toast.LENGTH_SHORT).show()
+                when (view.id) {
+                    R.id.add_to_cart -> {
+                        viewModel.bookCart[data.isbn] = data.price
+                        Toast.makeText(applicationContext, "add to cart ${viewModel.bookCart.size}", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                    else -> Toast.makeText(applicationContext, "Title = ${data.title}", Toast.LENGTH_SHORT).show()
+                }
+
             }
 
         })
@@ -109,6 +119,7 @@ class MainActivity : AppCompatActivity() {
         when (item?.itemId) {
             R.id.cart_item -> {
                 val intent = Intent(this, OfferActivity::class.java)
+                intent.putExtra("ISBN", viewModel.bookCart)
                 startActivity(intent)
             }
         }

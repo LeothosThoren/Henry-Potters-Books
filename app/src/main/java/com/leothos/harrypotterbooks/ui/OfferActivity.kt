@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
 import com.leothos.harrypotterbooks.R
 import com.leothos.harrypotterbooks.databinding.ActivityOfferBinding
+import com.leothos.harrypotterbooks.utils.generateStringPath
 import com.leothos.harrypotterbooks.view_models.OfferViewModel
 
 
@@ -16,16 +17,18 @@ class OfferActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityOfferBinding
     private lateinit var viewModel: OfferViewModel
+
     private var errorSnackbar: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_offer)
 
-        configureViewModel()
-        displayErrorMessage()
+        // Retrieve data from previous activity
+        val result = intent.getSerializableExtra("ISBN") as HashMap<String, Int>
 
-//        viewModel.getTest().observe(this, Observer { binding.testView.text = it })
+        configureViewModel(result)
+        displayErrorMessage()
 
         binding.offerViewModel = viewModel
 
@@ -35,8 +38,12 @@ class OfferActivity : AppCompatActivity() {
     // Configuration
     // ***************
 
-    private fun configureViewModel() {
+    private fun configureViewModel(result: HashMap<String, Int>) {
         viewModel = ViewModelProviders.of(this).get(OfferViewModel::class.java)
+        viewModel.isbnValues = result
+        viewModel.isbn.postValue(generateStringPath(viewModel.isbnValues))
+        //Load data
+        viewModel.loadOffers(generateStringPath(viewModel.isbnValues))
     }
 
     //****************
@@ -70,5 +77,6 @@ class OfferActivity : AppCompatActivity() {
     private fun hideError() {
         errorSnackbar?.dismiss()
     }
+
 
 }

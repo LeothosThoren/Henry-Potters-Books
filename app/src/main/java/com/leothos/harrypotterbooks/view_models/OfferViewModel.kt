@@ -18,21 +18,19 @@ class OfferViewModel : BaseViewModel() {
     lateinit var henriPotierApi: HenriPotierApi
 
     private lateinit var subscription: Disposable
-    // var
     // val
     val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
     val errorMessage: MutableLiveData<Int> = MutableLiveData()
-    val errorClickListener = View.OnClickListener { loadOffers() }
-    private val test = MutableLiveData<String>()
+    val errorClickListener = View.OnClickListener { loadOffers(isbn.value!!) }
+    val showOffer = MutableLiveData<String>()
 
-    init {
-        loadOffers()
-    }
+    var isbnValues: HashMap<String, Int> = HashMap()
+    val isbn: MutableLiveData<String> = MutableLiveData()
 
 
-    private fun loadOffers() {
+    fun loadOffers(isbn: String) {
         subscription =
-            henriPotierApi.getCommercialOffers("c8fabf68-8374-48fe-a7ea-a00ccd07afff,a460afed-e5e7-4e39-a39d-c885c05db861")
+            henriPotierApi.getCommercialOffers(isbn)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { onRetrieveBookListStart() }
@@ -78,11 +76,23 @@ class OfferViewModel : BaseViewModel() {
     }
 
     private fun getOffers(offers: Offers) {
-        test.value = offers.offers?.get(0)?.type
+        val s = StringBuilder()
+        for (i in 0 until (offers.offers!!.size)) {
+            s.append("${offers.offers[i]?.sliceValue} : ")
+                .append(offers.offers[i]?.type)
+                .append(" : ")
+                .append(offers.offers[i]?.value.toString())
+                .append("\n")
+        }
+        showOffer.value = s.toString()
     }
 
-    fun getTest(): MutableLiveData<String> {
-        return test
+
+    /**
+     * Exposed viewModel to the views databinding
+     * */
+    fun getBestOffer(): MutableLiveData<String> {
+        return showOffer
     }
 
 

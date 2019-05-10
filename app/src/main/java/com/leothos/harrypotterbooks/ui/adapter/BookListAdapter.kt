@@ -9,6 +9,7 @@ import com.leothos.harrypotterbooks.R
 import com.leothos.harrypotterbooks.databinding.ItemBookBinding
 import com.leothos.harrypotterbooks.model.Book
 import com.leothos.harrypotterbooks.view_models.BookViewModel
+import kotlinx.android.synthetic.main.item_book.view.*
 
 class BookListAdapter : RecyclerView.Adapter<BookListAdapter.ViewHolder>() {
 
@@ -32,6 +33,8 @@ class BookListAdapter : RecyclerView.Adapter<BookListAdapter.ViewHolder>() {
         val bookData = bookList[position]
         holder.bind(bookData)
         holder.itemView.setOnClickListener { listener.onClick(it, bookData) }
+        holder.itemView.add_to_cart.setOnClickListener { listener.onClick(it, bookData) }
+
     }
 
     /**
