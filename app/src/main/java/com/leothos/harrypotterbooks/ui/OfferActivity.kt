@@ -1,14 +1,19 @@
 package com.leothos.harrypotterbooks.ui
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.widget.LinearLayout
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.leothos.harrypotterbooks.R
 import com.leothos.harrypotterbooks.databinding.ActivityOfferBinding
+import com.leothos.harrypotterbooks.model.Book
 import com.leothos.harrypotterbooks.utils.generateStringPath
 import com.leothos.harrypotterbooks.view_models.OfferViewModel
 
@@ -25,9 +30,10 @@ class OfferActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_offer)
 
         // Retrieve data from previous activity
-        val result = intent.getSerializableExtra("ISBN") as HashMap<String, Int>
+        val result = intent.getSerializableExtra("ISBN") as HashMap<String, Book>
 
         configureViewModel(result)
+        configureRecyclerView(result)
         displayErrorMessage()
 
         binding.offerViewModel = viewModel
@@ -38,14 +44,27 @@ class OfferActivity : AppCompatActivity() {
     // Configuration
     // ***************
 
-    private fun configureViewModel(result: HashMap<String, Int>) {
+    private fun configureViewModel(result: HashMap<String, Book>) {
         viewModel = ViewModelProviders.of(this).get(OfferViewModel::class.java)
-        viewModel.isbnValues = result
-        viewModel.isbn.postValue(generateStringPath(viewModel.isbnValues))
+        viewModel.hashMapOfBooks = result
+        viewModel.isbn.postValue(generateStringPath(viewModel.hashMapOfBooks))
         //Load data
-        viewModel.loadOffers(generateStringPath(viewModel.isbnValues))
+        viewModel.loadOffers(generateStringPath(viewModel.hashMapOfBooks))
     }
 
+    @SuppressLint("WrongConstant")
+    private fun configureRecyclerView(result: HashMap<String, Book>) {
+        binding.bookSelection.apply {
+            layoutManager = LinearLayoutManager(
+                context,
+                LinearLayoutManager.VERTICAL, false
+            )
+            addItemDecoration(DividerItemDecoration(context, LinearLayout.HORIZONTAL))
+            adapter = viewModel.selectionBookListAdapter
+        }
+        viewModel.getSelectionAdapter(result)
+
+    }
     //****************
     // UI
     // ***************

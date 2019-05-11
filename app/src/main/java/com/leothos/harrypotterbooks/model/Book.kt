@@ -1,12 +1,15 @@
 package com.leothos.harrypotterbooks.model
 
+import android.os.Parcelable
 import com.squareup.moshi.Json
+import kotlinx.android.parcel.Parcelize
 
 /**
  * Book pojo serialized with Moshi
  * Custom object
  * */
 
+@Parcelize
 data class Book(
 
     @Json(name = "isbn")
@@ -24,4 +27,4 @@ data class Book(
     @Json(name = "synopsis")
     val synopsis: List<String?>? = null
 
-)
+) : Parcelable

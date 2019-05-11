@@ -25,7 +25,7 @@ class BookListViewModel : BaseViewModel() {
     val errorMessage: MutableLiveData<Int> = MutableLiveData()
     val errorClickListener = View.OnClickListener { loadBookList() }
     val bookListAdapter: BookListAdapter = BookListAdapter()
-    val bookCart = HashMap<String?, Int?>()
+    val bookCart = HashMap<String?, Book?>()
 
 
     init {

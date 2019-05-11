@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
             override fun onClick(view: View, data: Book) {
                 when (view.id) {
                     R.id.add_to_cart -> {
-                        viewModel.bookCart[data.isbn] = data.price
+                        viewModel.bookCart[data.isbn] = data
                         Toast.makeText(applicationContext, "add to cart ${viewModel.bookCart.size}", Toast.LENGTH_SHORT)
                             .show()
                     }

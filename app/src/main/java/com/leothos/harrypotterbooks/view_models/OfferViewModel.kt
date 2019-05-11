@@ -5,8 +5,10 @@ import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.leothos.harrypotterbooks.R
 import com.leothos.harrypotterbooks.base.BaseViewModel
+import com.leothos.harrypotterbooks.model.Book
 import com.leothos.harrypotterbooks.model.Offers
 import com.leothos.harrypotterbooks.remote.HenriPotierApi
+import com.leothos.harrypotterbooks.ui.adapter.SelectionListAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -23,8 +25,9 @@ class OfferViewModel : BaseViewModel() {
     val errorMessage: MutableLiveData<Int> = MutableLiveData()
     val errorClickListener = View.OnClickListener { loadOffers(isbn.value!!) }
     val showOffer = MutableLiveData<String>()
+    val selectionBookListAdapter: SelectionListAdapter = SelectionListAdapter()
 
-    var isbnValues: HashMap<String, Int> = HashMap()
+    var hashMapOfBooks: HashMap<String, Book> = HashMap()
     val isbn: MutableLiveData<String> = MutableLiveData()
 
 
@@ -93,6 +96,10 @@ class OfferViewModel : BaseViewModel() {
      * */
     fun getBestOffer(): MutableLiveData<String> {
         return showOffer
+    }
+
+    fun getSelectionAdapter(h: HashMap<String, Book>) {
+        selectionBookListAdapter.updateSelectionList(h)
     }
 
 

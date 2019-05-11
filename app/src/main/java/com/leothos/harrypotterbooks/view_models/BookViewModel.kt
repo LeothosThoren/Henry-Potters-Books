@@ -16,7 +16,7 @@ class BookViewModel : BaseViewModel() {
         bookIsbn.value = book.isbn
         bookTitle.value = book.title
         bookCover.value = book.cover
-        bookPrice.value = book.price.toString()
+        bookPrice.value = "${book.price} €"
     }
 
     fun getBookTitle(): MutableLiveData<String> {
