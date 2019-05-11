@@ -9,6 +9,8 @@ import com.leothos.harrypotterbooks.model.Book
 import com.leothos.harrypotterbooks.model.Offers
 import com.leothos.harrypotterbooks.remote.HenriPotierApi
 import com.leothos.harrypotterbooks.ui.adapter.SelectionListAdapter
+import com.leothos.harrypotterbooks.utils.computeTotalPrice
+import com.leothos.harrypotterbooks.utils.giveBestCommercialOffer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -87,7 +89,7 @@ class OfferViewModel : BaseViewModel() {
                 .append(offers.offers[i]?.value.toString())
                 .append("\n")
         }
-        showOffer.value = s.toString()
+        showOffer.value = s.append(giveBestCommercialOffer(computeTotalPrice(hashMapOfBooks), offers)).toString()
     }
 
 

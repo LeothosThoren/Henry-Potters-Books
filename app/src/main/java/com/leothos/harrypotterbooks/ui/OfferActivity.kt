@@ -33,7 +33,7 @@ class OfferActivity : AppCompatActivity() {
         val result = intent.getSerializableExtra("ISBN") as HashMap<String, Book>
 
         configureViewModel(result)
-        configureRecyclerView(result)
+        configureRecyclerView()
         displayErrorMessage()
 
         binding.offerViewModel = viewModel
@@ -53,16 +53,16 @@ class OfferActivity : AppCompatActivity() {
     }
 
     @SuppressLint("WrongConstant")
-    private fun configureRecyclerView(result: HashMap<String, Book>) {
+    private fun configureRecyclerView() {
         binding.bookSelection.apply {
             layoutManager = LinearLayoutManager(
                 context,
                 LinearLayoutManager.VERTICAL, false
             )
-            addItemDecoration(DividerItemDecoration(context, LinearLayout.HORIZONTAL))
+            addItemDecoration(DividerItemDecoration(context, LinearLayout.VERTICAL))
             adapter = viewModel.selectionBookListAdapter
         }
-        viewModel.getSelectionAdapter(result)
+        viewModel.getSelectionAdapter(viewModel.hashMapOfBooks)
 
     }
     //****************
