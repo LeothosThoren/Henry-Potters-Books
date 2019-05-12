@@ -31,6 +31,7 @@ class OfferViewModel : BaseViewModel() {
 
     var hashMapOfBooks: HashMap<String, Book> = HashMap()
     val isbn: MutableLiveData<String> = MutableLiveData()
+    val total: MutableLiveData<String> = MutableLiveData()
 
 
     fun loadOffers(isbn: String) {
@@ -81,15 +82,8 @@ class OfferViewModel : BaseViewModel() {
     }
 
     private fun getOffers(offers: Offers) {
-        val s = StringBuilder()
-        for (i in 0 until (offers.offers!!.size)) {
-            s.append("${offers.offers[i]?.sliceValue} : ")
-                .append(offers.offers[i]?.type)
-                .append(" : ")
-                .append(offers.offers[i]?.value.toString())
-                .append("\n")
-        }
-        showOffer.value = s.append(giveBestCommercialOffer(computeTotalPrice(hashMapOfBooks), offers)).toString()
+        showOffer.value = (giveBestCommercialOffer(computeTotalPrice(hashMapOfBooks), offers)).toString()
+        total.value = computeTotalPrice(hashMapOfBooks).toString()
     }
 
 
@@ -102,6 +96,10 @@ class OfferViewModel : BaseViewModel() {
 
     fun getSelectionAdapter(h: HashMap<String, Book>) {
         selectionBookListAdapter.updateSelectionList(h)
+    }
+
+    fun getTotalPrice(): MutableLiveData<String> {
+        return total
     }
 
 

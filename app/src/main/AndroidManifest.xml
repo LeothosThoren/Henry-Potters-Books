@@ -27,6 +27,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.OfferActivity">
+            <!--android:parentActivityName=".ui.MainActivity">-->
+
+            <!--&lt;!&ndash; Parent activity meta-data to support 4.0 and lower &ndash;&gt;-->
+            <!--<meta-data-->
+            <!--android:name="android.support.PARENT_ACTIVITY"-->
+            <!--android:value=".ui.MainActivity"/>-->
         </activity>
         <activity android:name=".ui.MainActivity">
 

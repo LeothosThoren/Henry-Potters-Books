@@ -2,6 +2,7 @@ package com.leothos.harrypotterbooks.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.LinearLayout
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
@@ -29,6 +30,7 @@ class OfferActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_offer)
 
+        configureToolbar()
         // Retrieve data from previous activity
         val result = intent.getSerializableExtra("ISBN") as HashMap<String, Book>
 
@@ -65,6 +67,12 @@ class OfferActivity : AppCompatActivity() {
         viewModel.getSelectionAdapter(viewModel.hashMapOfBooks)
 
     }
+
+    private fun configureToolbar() {
+        setSupportActionBar(binding.offerToolbar)
+        binding.offerToolbar.title = "Cart summary"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
     //****************
     // UI
     // ***************
@@ -95,6 +103,13 @@ class OfferActivity : AppCompatActivity() {
      * */
     private fun hideError() {
         errorSnackbar?.dismiss()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> finish()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 

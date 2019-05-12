@@ -32,16 +32,16 @@ fun computeTotalPrice(h: HashMap<String, Book>): Int {
  * @param offer the Offer object allow to identify the type and get the value of the offers
  * */
 fun giveBestCommercialOffer(total: Int, offer: Offers): Any {
-    val bestProposal = mutableListOf<Double>()
+    var bestProposal = Double.MAX_VALUE
     for (o in 0 until offer.offers?.size!!) {
         when (offer.offers[o]?.type) {
             "percentage" -> {
                 val percentage = total.toDouble() - ((total.toDouble() * 5.0) / 100.0)
-                bestProposal.add(percentage)
+                if (percentage < bestProposal) bestProposal = percentage
             }
             "minus" -> {
                 val minus = total - offer.offers[o]?.value!!
-                bestProposal.add(minus.toDouble())
+                if (minus < bestProposal) bestProposal = minus.toDouble()
             }
             "slice" -> {
                 var temp = total
@@ -53,16 +53,14 @@ fun giveBestCommercialOffer(total: Int, offer: Offers): Any {
                 }
                 if (count > 0) {
                     val slice = total - (offer.offers[o]?.value!! * count)
-                    bestProposal.add(slice.toDouble())
+                    if (slice < bestProposal) bestProposal = slice.toDouble()
                 }
 
             }
         }
     }
     // select the most interesting offer
-    bestProposal.sort()
-    // The first element in the list is the most interesting offer
-    return bestProposal[0]
+    return bestProposal
 }
 
 /**

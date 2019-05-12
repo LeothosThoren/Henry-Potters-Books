@@ -6,4 +6,9 @@
     <dimen name="list_item_spacing">16dp</dimen>
     <dimen name="list_item_spacing_half">8dp</dimen>
     <dimen name="badge_count_textsize">12sp</dimen>
+    <!--Text dimen-->
+    <dimen name="text_title">22sp</dimen>
+    <dimen name="padding_normal">8dip</dimen>
+    <dimen name="margin_small">2dip</dimen>
+    <dimen name="margin_huge">56dip</dimen>
 </resources>

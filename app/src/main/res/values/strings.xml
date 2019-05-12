@@ -3,5 +3,13 @@
     <string name="book_error">An error occurred while loading, check your internet connexion</string>
     <string name="retry">Retry</string>
     <string name="alert_user">Please select at least one book before checking cart</string>
+    <string name="best_offer">Best offer (€):</string>
+    <string name="total_price">Total price (€):</string>
+    <string name="t">T</string>
+    <string name="o">O</string>
+    <string name="synopsis">synopsis</string>
+    <string name="title">Title</string>
+    <string name="price">price</string>
+    <string name="add">ADD</string>
 
 </resources>
