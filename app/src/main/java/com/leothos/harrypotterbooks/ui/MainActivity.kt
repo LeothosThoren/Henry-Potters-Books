@@ -1,7 +1,9 @@
 package com.leothos.harrypotterbooks.ui
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -18,8 +20,10 @@ import com.leothos.harrypotterbooks.R
 import com.leothos.harrypotterbooks.databinding.ActivityMainBinding
 import com.leothos.harrypotterbooks.model.Book
 import com.leothos.harrypotterbooks.ui.adapter.BookListAdapter
+import com.leothos.harrypotterbooks.ui.views.CountDrawable
 import com.leothos.harrypotterbooks.utils.BOTTOM_SHEET_MODAL
 import com.leothos.harrypotterbooks.view_models.BookListViewModel
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -118,11 +122,12 @@ class MainActivity : AppCompatActivity() {
         errorSnackbar?.dismiss()
     }
 
+
     //****************
     // Action
     // ***************
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
         return true
     }
@@ -134,6 +139,32 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        val menuItem = menu.findItem(R.id.cart_item)
+        val icon = menuItem.icon as LayerDrawable
+        setBadgeCount(this, viewModel.bookCart.size.toString(), icon)
+        invalidateOptionsMenu()
+        return super.onPrepareOptionsMenu(menu)
+    }
+
+
+    private fun setBadgeCount(context: Context, count: String, icon: LayerDrawable) {
+
+        val badge: CountDrawable
+
+        // Reuse drawable if possible
+        val reuse = icon.findDrawableByLayerId(R.id.ic_cart_count)
+        badge = if (reuse != null && reuse is CountDrawable) {
+            reuse
+        } else {
+            CountDrawable(context)
+        }
+
+        badge.setCount(count)
+        icon.mutate()
+        icon.setDrawableByLayerId(R.id.ic_cart_count, badge)
+    }
+
 
     private fun launchActivity() {
         if (viewModel.bookCart.size > 0) {
@@ -141,7 +172,7 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("ISBN", viewModel.bookCart)
             startActivity(intent)
         } else {
-            Toast.makeText(applicationContext, getString(R.string.alert_user), Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, getString(R.string.alert_user), Toast.LENGTH_LONG).show()
         }
 
     }

@@ -2,6 +2,6 @@
     <string name="app_name">Harry Potter Books</string>
     <string name="book_error">An error occurred while loading, check your internet connexion</string>
     <string name="retry">Retry</string>
-    <string name="alert_user">Please select at least one book before checking car</string>
+    <string name="alert_user">Please select at least one book before checking cart</string>
 
 </resources>
