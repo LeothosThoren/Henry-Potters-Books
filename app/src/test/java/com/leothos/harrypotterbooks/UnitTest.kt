@@ -4,6 +4,7 @@ import com.leothos.harrypotterbooks.model.Book
 import com.leothos.harrypotterbooks.model.Offers
 import com.leothos.harrypotterbooks.model.OffersItem
 import com.leothos.harrypotterbooks.utils.computeTotalPrice
+import com.leothos.harrypotterbooks.utils.generateStringFromList
 import com.leothos.harrypotterbooks.utils.generateStringPath
 import com.leothos.harrypotterbooks.utils.giveBestCommercialOffer
 import org.junit.Assert.assertEquals
@@ -50,6 +51,13 @@ class UnitTest {
         assertEquals(80.0, giveBestCommercialOffer(total, listOffer))
         assertEquals(194.0, giveBestCommercialOffer(total2, listOffer))
         assertEquals(50.0, giveBestCommercialOffer(total3, listOffer))
+    }
+
+    @Test
+    fun generate_string_from_array() {
+        val synopsis = listOf<String>("text1", "text2", "text3")
+
+        assertEquals("text1 text2 text3", generateStringFromList(synopsis))
     }
 
 }

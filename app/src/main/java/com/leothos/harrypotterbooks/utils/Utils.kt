@@ -64,3 +64,15 @@ fun giveBestCommercialOffer(total: Int, offer: Offers): Any {
     // The first element in the list is the most interesting offer
     return bestProposal[0]
 }
+
+/**
+ * The synopsis is a list of string, so the aim is to get all the string and concatenate them
+ * @param listOfString
+ * */
+fun generateStringFromList(listOfString: List<String?>?): String {
+    val sb = StringBuilder()
+    for (s in listOfString!!) {
+        sb.append(s).append(" ")
+    }
+    return sb.removeSuffix(" ").toString()
+}

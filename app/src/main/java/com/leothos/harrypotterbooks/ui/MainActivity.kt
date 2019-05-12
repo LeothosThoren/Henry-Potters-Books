@@ -18,6 +18,7 @@ import com.leothos.harrypotterbooks.R
 import com.leothos.harrypotterbooks.databinding.ActivityMainBinding
 import com.leothos.harrypotterbooks.model.Book
 import com.leothos.harrypotterbooks.ui.adapter.BookListAdapter
+import com.leothos.harrypotterbooks.utils.BOTTOM_SHEET_MODAL
 import com.leothos.harrypotterbooks.view_models.BookListViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -40,7 +41,8 @@ class MainActivity : AppCompatActivity() {
         displayErrorMessage()
         configureRecyclerView()
 
-
+        // Fab
+        binding.floatingActionButton.setOnClickListener { launchActivity() }
         binding.viewModel = viewModel
     }
 
@@ -63,10 +65,10 @@ class MainActivity : AppCompatActivity() {
                 when (view.id) {
                     R.id.add_to_cart -> {
                         viewModel.bookCart[data.isbn] = data
-                        Toast.makeText(applicationContext, "add to cart ${viewModel.bookCart.size}", Toast.LENGTH_SHORT)
+                        Snackbar.make(view, "add to cart ${viewModel.bookCart.size}", Toast.LENGTH_SHORT)
                             .show()
                     }
-                    else -> Toast.makeText(applicationContext, "Title = ${data.title}", Toast.LENGTH_SHORT).show()
+                    else -> openModalSheetFragment(data.synopsis)
                 }
 
             }
@@ -74,9 +76,19 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+
     //****************
     // UI
     // ***************
+
+    /**
+     * Open a modal bottom sheet
+     * */
+    private fun openModalSheetFragment(listOfString: List<String?>?) {
+        val modal = SynopsisFragment()
+        modal.newInstance(listOfString)
+            .show(supportFragmentManager, BOTTOM_SHEET_MODAL)
+    }
 
     /**
      * Observe the value of errorMessage in this Activity to display the SnackBar when it is not null,
@@ -117,12 +129,20 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.cart_item -> {
-                val intent = Intent(this, OfferActivity::class.java)
-                intent.putExtra("ISBN", viewModel.bookCart)
-                startActivity(intent)
-            }
+            R.id.cart_item -> launchActivity()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+
+    private fun launchActivity() {
+        if (viewModel.bookCart.size > 0) {
+            val intent = Intent(this, OfferActivity::class.java)
+            intent.putExtra("ISBN", viewModel.bookCart)
+            startActivity(intent)
+        } else {
+            Toast.makeText(applicationContext, getString(R.string.alert_user), Toast.LENGTH_SHORT).show()
+        }
+
     }
 }
