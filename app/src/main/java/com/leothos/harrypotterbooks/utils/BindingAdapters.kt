@@ -6,6 +6,7 @@ package com.leothos.harrypotterbooks.utils
  * Live is data is used to observe the of state of the data value.
  * */
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -35,6 +36,17 @@ fun setMutableText(view: TextView, text: MutableLiveData<String>?) {
     val parentActivity: AppCompatActivity? = view.getParentActivity()
     if (parentActivity != null && text != null) {
         text.observe(parentActivity, Observer { value -> view.text = value ?: "" })
+    }
+}
+
+/**
+ * This method handle TextView value
+ * */
+@BindingAdapter("mutableButtonText")
+fun setMutableButtonText(view: Button, text: MutableLiveData<String>?) {
+    val parentActivity: AppCompatActivity? = view.getParentActivity()
+    if (parentActivity != null && text != null) {
+        text.observe(parentActivity, Observer { value -> view.text = value ?: "ADD" })
     }
 }
 

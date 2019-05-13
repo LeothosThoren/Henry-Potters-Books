@@ -25,6 +25,10 @@ data class Book(
     val price: Int? = null,
 
     @Json(name = "synopsis")
-    val synopsis: List<String?>? = null
+    val synopsis: List<String?>? = null,
+
+    var isInCart: Boolean = false,
+
+    var buttonText: String? = null
 
 ) : Parcelable

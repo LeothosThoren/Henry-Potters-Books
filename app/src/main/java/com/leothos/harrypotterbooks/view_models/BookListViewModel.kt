@@ -27,7 +27,6 @@ class BookListViewModel : BaseViewModel() {
     val bookListAdapter: BookListAdapter = BookListAdapter()
     val bookCart = HashMap<String?, Book?>()
 
-
     init {
         loadBookList()
     }

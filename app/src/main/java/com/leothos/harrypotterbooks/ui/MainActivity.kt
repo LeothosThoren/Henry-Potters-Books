@@ -23,6 +23,7 @@ import com.leothos.harrypotterbooks.ui.adapter.BookListAdapter
 import com.leothos.harrypotterbooks.ui.views.CountDrawable
 import com.leothos.harrypotterbooks.utils.BOTTOM_SHEET_MODAL
 import com.leothos.harrypotterbooks.view_models.BookListViewModel
+import kotlinx.android.synthetic.main.item_book.view.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -68,9 +69,24 @@ class MainActivity : AppCompatActivity() {
             override fun onClick(view: View, data: Book) {
                 when (view.id) {
                     R.id.add_to_cart -> {
-                        viewModel.bookCart[data.isbn] = data
-                        Snackbar.make(view, "add to cart ${viewModel.bookCart.size}", Toast.LENGTH_SHORT)
-                            .show()
+                        // viewmodel update
+                        if (!data.isInCart) {
+                            viewModel.bookCart[data.isbn] = data
+                            data.buttonText = getString(R.string.remove)
+                            view.add_to_cart.text = data.buttonText
+                            data.isInCart = true
+                            Snackbar.make(view, getString(R.string.add_to_cart), Toast.LENGTH_SHORT)
+                                .show()
+
+                        } else {
+                            viewModel.bookCart.remove(data.isbn)
+                            data.buttonText = getString(R.string.add)
+                            view.add_to_cart.text = data.buttonText
+                            data.isInCart = false
+                            Snackbar.make(view, getString(R.string.remove_from_cart), Toast.LENGTH_SHORT)
+                                .show()
+                        }
+
                     }
                     else -> openModalSheetFragment(data.synopsis)
                 }

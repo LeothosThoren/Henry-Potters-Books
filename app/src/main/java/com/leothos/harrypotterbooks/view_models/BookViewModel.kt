@@ -12,6 +12,7 @@ class BookViewModel : BaseViewModel() {
     private val bookCover = MutableLiveData<String>()
     private val bookPrice = MutableLiveData<String>()
     private val bookSynopsis = MutableLiveData<String>()
+    private val buttonTextValue = MutableLiveData<String>()
 
     fun bind(book: Book) {
         bookIsbn.value = book.isbn
@@ -19,6 +20,7 @@ class BookViewModel : BaseViewModel() {
         bookCover.value = book.cover
         bookPrice.value = "${book.price} €"
         bookSynopsis.value = generateStringFromList(book.synopsis)
+        buttonTextValue.value = book.buttonText
     }
 
     fun getBookTitle(): MutableLiveData<String> {
@@ -35,5 +37,9 @@ class BookViewModel : BaseViewModel() {
 
     fun getBookSynopsis(): MutableLiveData<String> {
         return bookSynopsis
+    }
+
+    fun getButtonText(): MutableLiveData<String> {
+        return buttonTextValue
     }
 }

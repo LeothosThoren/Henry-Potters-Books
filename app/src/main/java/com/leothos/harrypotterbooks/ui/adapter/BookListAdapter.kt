@@ -34,7 +34,6 @@ class BookListAdapter : RecyclerView.Adapter<BookListAdapter.ViewHolder>() {
         holder.bind(bookData)
         holder.itemView.setOnClickListener { listener.onClick(it, bookData) }
         holder.itemView.add_to_cart.setOnClickListener { listener.onClick(it, bookData) }
-
     }
 
     /**

@@ -11,5 +11,8 @@
     <string name="title">Title</string>
     <string name="price">price</string>
     <string name="add">ADD</string>
+    <string name="remove">REMOVE</string>
+    <string name="add_to_cart">Added in cart!</string>
+    <string name="remove_from_cart">Removed from cart!</string>
 
 </resources>
