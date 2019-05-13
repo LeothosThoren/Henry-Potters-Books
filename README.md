@@ -17,7 +17,7 @@ It's possible to go further and add a buy system functionality. The main idea in
   * Data binding
   * Glide
     
-## Screenshots
+<!--## Screenshots
 <div align="center">
 <img src="" height="580" width="340">
-</div>
+</div>-->
