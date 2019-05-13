@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:title="cart"
+    <item android:title="@string/cart"
           android:id="@+id/cart_item"
           android:icon="@drawable/actionbar_cart_icon"
           app:showAsAction="always">

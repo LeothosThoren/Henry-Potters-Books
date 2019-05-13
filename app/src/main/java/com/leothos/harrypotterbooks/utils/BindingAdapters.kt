@@ -40,7 +40,7 @@ fun setMutableText(view: TextView, text: MutableLiveData<String>?) {
 }
 
 /**
- * This method handle TextView value
+ * This method handle Button text value
  * */
 @BindingAdapter("mutableButtonText")
 fun setMutableButtonText(view: Button, text: MutableLiveData<String>?) {

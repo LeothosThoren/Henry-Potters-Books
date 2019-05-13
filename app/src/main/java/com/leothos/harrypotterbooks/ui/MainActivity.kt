@@ -51,7 +51,6 @@ class MainActivity : AppCompatActivity() {
         binding.viewModel = viewModel
     }
 
-
     //****************
     // Configuration
     // ***************

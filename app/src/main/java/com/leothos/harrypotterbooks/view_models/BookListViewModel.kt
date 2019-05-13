@@ -48,6 +48,7 @@ class BookListViewModel : BaseViewModel() {
                 },
 
                 {
+                    Log.d(TAG, "Throwable message = ${it.message}")
                     onRetrieveError()
                 }
             )
@@ -59,11 +60,13 @@ class BookListViewModel : BaseViewModel() {
      * */
 
     private fun onRetrieveBookListStart() {
+        Log.d(TAG, "Start retrofit")
         loadingVisibility.value = View.VISIBLE
         errorMessage.value = null
     }
 
     private fun onRetrieveBookListFinish() {
+        Log.d(TAG, "Finish retrofit")
         loadingVisibility.value = View.GONE
     }
 

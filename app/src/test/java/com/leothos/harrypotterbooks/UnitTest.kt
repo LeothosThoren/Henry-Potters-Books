@@ -30,7 +30,7 @@ val listOffer = Offers(
 class UnitTest {
     @Test
     fun concat_String() {
-        h.put("c8fabf68-8374-48fe-a7ea-a00ccd07afff", book1)
+        h["c8fabf68-8374-48fe-a7ea-a00ccd07afff"] = book1
         h.put("a460afed-e5e7-4e39-a39d-c885c05db861", book2)
         assertEquals("c8fabf68-8374-48fe-a7ea-a00ccd07afff,a460afed-e5e7-4e39-a39d-c885c05db861", generateStringPath(h))
     }
@@ -55,7 +55,7 @@ class UnitTest {
 
     @Test
     fun generate_string_from_array() {
-        val synopsis = listOf<String>("text1", "text2", "text3")
+        val synopsis = listOf("text1", "text2", "text3")
 
         assertEquals("text1 text2 text3", generateStringFromList(synopsis))
     }
