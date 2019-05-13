@@ -40,7 +40,6 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         setSupportActionBar(binding.toolbar)
 
-
         // Init
         configureViewModel()
         displayErrorMessage()
@@ -69,29 +68,14 @@ class MainActivity : AppCompatActivity() {
                 when (view.id) {
                     R.id.add_to_cart -> {
                         // viewmodel update
-                        if (!data.isInCart) {
-                            viewModel.bookCart[data.isbn] = data
-                            data.buttonText = getString(R.string.remove)
-                            view.add_to_cart.text = data.buttonText
-                            data.isInCart = true
-                            Snackbar.make(view, getString(R.string.add_to_cart), Toast.LENGTH_SHORT)
-                                .show()
-
-                        } else {
-                            viewModel.bookCart.remove(data.isbn)
-                            data.buttonText = getString(R.string.add)
-                            view.add_to_cart.text = data.buttonText
-                            data.isInCart = false
-                            Snackbar.make(view, getString(R.string.remove_from_cart), Toast.LENGTH_SHORT)
-                                .show()
-                        }
-
+                        if (!data.isInCart)
+                            addToCart(data, view)
+                        else
+                            removeFromCart(data, view)
                     }
                     else -> openModalSheetFragment(data.synopsis)
                 }
-
             }
-
         })
     }
 
@@ -142,6 +126,10 @@ class MainActivity : AppCompatActivity() {
     // Action
     // ***************
 
+
+    /**
+     * Setting the menu action bar
+     * */
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
         return true
@@ -163,6 +151,12 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    /**
+     * Allow to set a badge on the cart icon in the tool bar
+     * @param context
+     * @param count the number of item counted
+     * @param icon LayerDrawable allows to change the icon or reuse the icon
+     * */
     private fun setBadgeCount(context: Context, count: String, icon: LayerDrawable) {
 
         val badge: CountDrawable
@@ -181,6 +175,9 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    /**
+     * Pass data and move to activity OfferActivity
+     * */
     private fun launchActivity() {
         if (viewModel.bookCart.size > 0) {
             val intent = Intent(this, OfferActivity::class.java)
@@ -189,6 +186,23 @@ class MainActivity : AppCompatActivity() {
         } else {
             Toast.makeText(applicationContext, getString(R.string.alert_user), Toast.LENGTH_LONG).show()
         }
+    }
 
+    private fun addToCart(book: Book, v: View) {
+        viewModel.bookCart[book.isbn] = book
+        book.buttonText = getString(R.string.remove)
+        v.add_to_cart.text = book.buttonText
+        book.isInCart = true
+        Snackbar.make(v, getString(R.string.add_to_cart), Snackbar.LENGTH_SHORT)
+            .show()
+    }
+
+    private fun removeFromCart(book: Book, v: View) {
+        viewModel.bookCart.remove(book.isbn)
+        book.buttonText = getString(R.string.add)
+        v.add_to_cart.text = book.buttonText
+        book.isInCart = false
+        Snackbar.make(v, getString(R.string.remove_from_cart), Snackbar.LENGTH_SHORT)
+            .show()
     }
 }

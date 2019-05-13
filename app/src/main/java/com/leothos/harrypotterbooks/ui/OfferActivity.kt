@@ -70,7 +70,7 @@ class OfferActivity : AppCompatActivity() {
 
     private fun configureToolbar() {
         setSupportActionBar(binding.offerToolbar)
-        binding.offerToolbar.title = "Cart summary"
+        binding.offerToolbar.title = getString(R.string.cart_summary)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
     //****************

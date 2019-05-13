@@ -15,5 +15,6 @@
     <string name="add_to_cart">Added in cart!</string>
     <string name="remove_from_cart">Removed from cart!</string>
     <string name="cart">cart</string>
+    <string name="cart_summary">Cart summary</string>
 
 </resources>
