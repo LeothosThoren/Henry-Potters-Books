@@ -26,12 +26,12 @@ class OfferViewModel : BaseViewModel() {
     val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
     val errorMessage: MutableLiveData<Int> = MutableLiveData()
     val errorClickListener = View.OnClickListener { loadOffers(isbn.value!!) }
-    val showOffer = MutableLiveData<String>()
     val selectionBookListAdapter: SelectionListAdapter = SelectionListAdapter()
-
     var hashMapOfBooks: HashMap<String, Book> = HashMap()
     val isbn: MutableLiveData<String> = MutableLiveData()
     val total: MutableLiveData<String> = MutableLiveData()
+    val bestReductionPrice: MutableLiveData<String> = MutableLiveData()
+    val bestReductionType: MutableLiveData<String> = MutableLiveData()
 
 
     fun loadOffers(isbn: String) {
@@ -82,17 +82,16 @@ class OfferViewModel : BaseViewModel() {
     }
 
     private fun getOffers(offers: Offers) {
-        showOffer.value = (giveBestCommercialOffer(computeTotalPrice(hashMapOfBooks), offers)).toString()
         total.value = computeTotalPrice(hashMapOfBooks).toString()
+        bestReductionPrice.value =
+            giveBestCommercialOffer(computeTotalPrice(hashMapOfBooks), offers).bestProposal.toString()
+        bestReductionType.value = giveBestCommercialOffer(computeTotalPrice(hashMapOfBooks), offers).reduction
     }
 
 
     /**
      * Exposed viewModel to the views databinding
      * */
-    fun getBestOffer(): MutableLiveData<String> {
-        return showOffer
-    }
 
     fun getSelectionAdapter(h: HashMap<String, Book>) {
         selectionBookListAdapter.updateSelectionList(h)
@@ -102,6 +101,13 @@ class OfferViewModel : BaseViewModel() {
         return total
     }
 
+    fun getReductionPrice(): MutableLiveData<String> {
+        return bestReductionPrice
+    }
+
+    fun getReductionType(): MutableLiveData<String> {
+        return bestReductionType
+    }
 
     /**
      * To dispose subscription when the viewModel is no longer used and will be destroyed

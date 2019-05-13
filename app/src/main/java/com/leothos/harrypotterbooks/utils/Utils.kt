@@ -1,5 +1,6 @@
 package com.leothos.harrypotterbooks.utils
 
+import com.leothos.harrypotterbooks.model.BestOffer
 import com.leothos.harrypotterbooks.model.Book
 import com.leothos.harrypotterbooks.model.Offers
 
@@ -31,17 +32,25 @@ fun computeTotalPrice(h: HashMap<String, Book>): Int {
  * @param total the total of all the book price selected
  * @param offer the Offer object allow to identify the type and get the value of the offers
  * */
-fun giveBestCommercialOffer(total: Int, offer: Offers): Any {
+fun giveBestCommercialOffer(total: Int, offer: Offers): BestOffer {
     var bestProposal = Double.MAX_VALUE
+    var reduction = ""
+
     for (o in 0 until offer.offers?.size!!) {
         when (offer.offers[o]?.type) {
             "percentage" -> {
-                val percentage = total.toDouble() - ((total.toDouble() * 5.0) / 100.0)
-                if (percentage < bestProposal) bestProposal = percentage
+                val percentage = total.toDouble() - ((total.toDouble() * offer.offers[o]?.value!!) / 100.0)
+                if (percentage < bestProposal) {
+                    bestProposal = percentage
+                    reduction = "-${offer.offers[o]?.value}%"
+                }
             }
             "minus" -> {
                 val minus = total - offer.offers[o]?.value!!
-                if (minus < bestProposal) bestProposal = minus.toDouble()
+                if (minus < bestProposal) {
+                    bestProposal = minus.toDouble()
+                    reduction = "-${offer.offers[o]?.value}€"
+                }
             }
             "slice" -> {
                 var temp = total
@@ -52,15 +61,19 @@ fun giveBestCommercialOffer(total: Int, offer: Offers): Any {
                     count++
                 }
                 if (count > 0) {
-                    val slice = total - (offer.offers[o]?.value!! * count)
-                    if (slice < bestProposal) bestProposal = slice.toDouble()
+                    val c = offer.offers[o]?.value!! * count
+                    val slice = total - c
+                    if (slice < bestProposal) {
+                        bestProposal = slice.toDouble()
+                        reduction = "-${c}€"
+                    }
                 }
 
             }
         }
     }
     // select the most interesting offer
-    return bestProposal
+    return BestOffer(bestProposal, reduction)
 }
 
 /**

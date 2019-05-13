@@ -48,9 +48,9 @@ class UnitTest {
         val total2 = 218
         val total3 = 65
 
-        assertEquals(80.0, giveBestCommercialOffer(total, listOffer))
-        assertEquals(194.0, giveBestCommercialOffer(total2, listOffer))
-        assertEquals(50.0, giveBestCommercialOffer(total3, listOffer))
+        assertEquals("80.0€", giveBestCommercialOffer(total, listOffer))
+        assertEquals("194.0€", giveBestCommercialOffer(total2, listOffer))
+        assertEquals("50.0€", giveBestCommercialOffer(total3, listOffer))
     }
 
     @Test
