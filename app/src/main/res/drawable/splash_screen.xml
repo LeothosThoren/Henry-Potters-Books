@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+<layer-list
+        xmlns:android="http://schemas.android.com/apk/res/android"
 >
     <item android:drawable="@android:color/black"/>
-    <item>
-        <bitmap android:gravity="center"
-                android:src="@drawable/ic_golden_snitch"/>
+    <item android:drawable="@drawable/ic_golden_snitch"
+          android:gravity="center"
+          android:height="@dimen/image_height"
+          android:width="@dimen/image_height">
+
     </item>
+
 </layer-list>
